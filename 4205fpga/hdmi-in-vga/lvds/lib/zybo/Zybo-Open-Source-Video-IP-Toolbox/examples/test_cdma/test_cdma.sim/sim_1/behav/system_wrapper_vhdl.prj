@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  "../../../test_cdma.ip_user_files/bd/system/hdl/system.vhd"
+vhdl xil_defaultlib  "../../../test_cdma.ip_user_files/bd/system/ip/system_axi_datamover_0_0/sim/system_axi_datamover_0_0.vhd"
+vhdl xil_defaultlib  "../../../test_cdma.srcs/sources_1/bd/system/hdl/system_wrapper.vhd"
+
+# Do not sort compile order
+nosort

@@ -1,0 +1,7 @@
+1.nandboot=echo Copying Linux from NAND flash to RAM... &&nand info && run nandroot;nand read 0x100000 0x2220000 0x300000 &&fpga loadb 0 0x100000 0x300000 &&nand read ${kernel_load_address} 0x300000 ${kernel_size} &&nand read ${devicetree_load_address} 0x800000 ${devicetree_size}
+
+2.setenv bootargs 'console=ttyPS0,115200 root=/dev/mtdblock6 rootfstype=jffs2 noinitrd rw rootwait reboot=cold,hard emergency init=/bin/sh'
+
+3.bootm ${kernel_load_address} - ${devicetree_load_address} init=/bin/sh
+
+4.passwd

@@ -1,0 +1,5 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  "../../../ieee754_fp_to_uint.srcs/sources_1/new/ieee754_fp_to_uint.vhd"
+
+# Do not sort compile order
+nosort

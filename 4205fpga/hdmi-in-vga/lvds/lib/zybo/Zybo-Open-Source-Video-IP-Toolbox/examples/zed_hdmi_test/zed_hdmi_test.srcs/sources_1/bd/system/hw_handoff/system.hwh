@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon May 22 02:50:48 2017" VIVADOVERSION="2016.4">
+
+  <SYSTEMINFO ARCH="zynq" BOARD="em.avnet.com:zed:part0:1.3" DEVICE="7z020" NAME="system" PACKAGE="clg484" SPEEDGRADE="-1"/>
+
+  <EXTERNALPORTS>
+    <PORT CLKFREQUENCY="100000000" DIR="O" NAME="hdmi_clk" SIGIS="clk" SIGNAME="zed_hdmi_0_hdmi_clk">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="zed_hdmi_0" PORT="hdmi_clk"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="hdmi_hsync" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_hsync">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="zed_hdmi_0" PORT="hdmi_hsync"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="hdmi_vsync" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_vsync">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="zed_hdmi_0" PORT="hdmi_vsync"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="15" NAME="hdmi_d" RIGHT="0" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_d">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="zed_hdmi_0" PORT="hdmi_d"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="hdmi_de" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_de">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="zed_hdmi_0" PORT="hdmi_de"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="hdmi_scl" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_scl">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="zed_hdmi_0" PORT="hdmi_scl"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="IO" NAME="hdmi_sda" SIGIS="undef" SIGNAME="External_Ports_hdmi_sda">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="zed_hdmi_0" PORT="hdmi_sda"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="clk_100" SIGIS="undef" SIGNAME="External_Ports_clk_100">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="vga_pll_0" PORT="clk_100"/>
+        <CONNECTION INSTANCE="zed_hdmi_0" PORT="clk_100"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="resend" SIGIS="undef"/>
+  </EXTERNALPORTS>
+
+  <EXTERNALINTERFACES/>
+
+  <MODULES>
+    <MODULE FULLNAME="/vdd" HWVERSION="1.1" INSTANCE="vdd" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="CONST_VAL" VALUE="1"/>
+        <PARAMETER NAME="CONST_WIDTH" VALUE="1"/>
+        <PARAMETER NAME="Component_Name" VALUE="system_xlconstant_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="O" LEFT="0" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="vdd_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="rst"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/vga_color_test_0" HWVERSION="1.0" INSTANCE="vga_color_test_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="vga_color_test" VLNV="xilinx.com:user:vga_color_test:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="H_SIZE" VALUE="640"/>
+        <PARAMETER NAME="V_SIZE" VALUE="480"/>
+        <PARAMETER NAME="Component_Name" VALUE="system_vga_color_test_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="clk_25" SIGIS="undef" SIGNAME="vga_pll_0_clk_25">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_pll_0" PORT="clk_25"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="9" NAME="xaddr" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_xaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="xaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="9" NAME="yaddr" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_yaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="yaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="23" NAME="rgb" RIGHT="0" SIGIS="undef" SIGNAME="vga_color_test_0_rgb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zed_hdmi_0" PORT="rgb888"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/vga_pll_0" HWVERSION="1.0" INSTANCE="vga_pll_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="vga_pll" VLNV="xilinx.com:user:vga_pll:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="system_vga_pll_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="clk_100" SIGIS="undef" SIGNAME="External_Ports_clk_100">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="clk_100"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="clk_50" SIGIS="undef" SIGNAME="vga_pll_0_clk_50">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zed_hdmi_0" PORT="clk_x2"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="clk_25" SIGIS="undef" SIGNAME="vga_pll_0_clk_25">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_color_test_0" PORT="clk_25"/>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="clk"/>
+            <CONNECTION INSTANCE="zed_hdmi_0" PORT="clk"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="clk_12_5" SIGIS="undef"/>
+        <PORT DIR="O" NAME="clk_6_25" SIGIS="undef"/>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/vga_sync_0" HWVERSION="1.0" INSTANCE="vga_sync_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="vga_sync" VLNV="xilinx.com:user:vga_sync:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="H_SIZE" VALUE="640"/>
+        <PARAMETER NAME="H_FRONT_DELAY" VALUE="16"/>
+        <PARAMETER NAME="H_BACK_DELAY" VALUE="48"/>
+        <PARAMETER NAME="H_RETRACE_DELAY" VALUE="96"/>
+        <PARAMETER NAME="V_SIZE" VALUE="480"/>
+        <PARAMETER NAME="V_FRONT_DELAY" VALUE="10"/>
+        <PARAMETER NAME="V_BACK_DELAY" VALUE="33"/>
+        <PARAMETER NAME="V_RETRACE_DELAY" VALUE="2"/>
+        <PARAMETER NAME="Component_Name" VALUE="system_vga_sync_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="vga_pll_0_clk_25">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_pll_0" PORT="clk_25"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rst" SIGIS="rst" SIGNAME="vdd_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vdd" PORT="dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="active" SIGIS="undef" SIGNAME="vga_sync_0_active">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zed_hdmi_0" PORT="active"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="hsync" SIGIS="undef" SIGNAME="vga_sync_0_hsync">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zed_hdmi_0" PORT="hsync"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="vsync" SIGIS="undef" SIGNAME="vga_sync_0_vsync">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zed_hdmi_0" PORT="vsync"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="9" NAME="xaddr" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_xaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_color_test_0" PORT="xaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="9" NAME="yaddr" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_yaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_color_test_0" PORT="yaddr"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/zed_hdmi_0" HWVERSION="1.0" INSTANCE="zed_hdmi_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="zed_hdmi" VLNV="xilinx.com:user:zed_hdmi:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="system_zed_hdmi_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="vga_pll_0_clk_25">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_pll_0" PORT="clk_25"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clk_x2" SIGIS="undef" SIGNAME="vga_pll_0_clk_50">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_pll_0" PORT="clk_50"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clk_100" SIGIS="undef" SIGNAME="External_Ports_clk_100">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="clk_100"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="active" SIGIS="undef" SIGNAME="vga_sync_0_active">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="active"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="hsync" SIGIS="undef" SIGNAME="vga_sync_0_hsync">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="hsync"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="vsync" SIGIS="undef" SIGNAME="vga_sync_0_vsync">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="vsync"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="23" NAME="rgb888" RIGHT="0" SIGIS="undef" SIGNAME="vga_color_test_0_rgb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_color_test_0" PORT="rgb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT CLKFREQUENCY="100000000" DIR="O" NAME="hdmi_clk" SIGIS="clk" SIGNAME="zed_hdmi_0_hdmi_clk">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="hdmi_clk"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="hdmi_hsync" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_hsync">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="hdmi_hsync"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="hdmi_vsync" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_vsync">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="hdmi_vsync"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="15" NAME="hdmi_d" RIGHT="0" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_d">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="hdmi_d"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="hdmi_de" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_de">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="hdmi_de"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="hdmi_scl" SIGIS="undef" SIGNAME="zed_hdmi_0_hdmi_scl">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="hdmi_scl"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="IO" NAME="hdmi_sda" SIGIS="undef" SIGNAME="External_Ports_hdmi_sda">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="hdmi_sda"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+  </MODULES>
+
+</EDKSYSTEM>

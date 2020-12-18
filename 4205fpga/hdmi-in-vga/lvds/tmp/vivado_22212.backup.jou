@@ -1,0 +1,81 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:36:41 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Jun  3 15:03:03 2019
+# Process ID: 22212
+# Current directory: /root/rg/2018.3/lvds/tmp
+# Command line: vivado
+# Log file: /root/rg/2018.3/lvds/tmp/vivado.log
+# Journal file: /root/rg/2018.3/lvds/tmp/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.xpr
+update_compile_order -fileset sources_1
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+startgroup
+set_property -dict [list CONFIG.PCW_USE_S_AXI_HP0 {0}] [get_bd_cells processing_system7_0]
+delete_bd_objs [get_bd_intf_nets axi_mem_intercon_M00_AXI]
+endgroup
+close_project
+open_project /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.xpr
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+update_compile_order -fileset sources_1
+startgroup
+create_bd_port -dir O -from 0 -to 0 ENET0_GMII_TX_EN
+connect_bd_net [get_bd_pins /processing_system7_0/ENET0_GMII_TX_EN] [get_bd_ports ENET0_GMII_TX_EN]
+endgroup
+startgroup
+create_bd_port -dir O -from 7 -to 0 ENET0_GMII_TXD
+connect_bd_net [get_bd_pins /processing_system7_0/ENET0_GMII_TXD] [get_bd_ports ENET0_GMII_TXD]
+endgroup
+startgroup
+create_bd_port -dir I -type clk ENET0_GMII_RX_CLK
+connect_bd_net [get_bd_pins /processing_system7_0/ENET0_GMII_RX_CLK] [get_bd_ports ENET0_GMII_RX_CLK]
+endgroup
+startgroup
+create_bd_port -dir I ENET0_GMII_RX_DV
+connect_bd_net [get_bd_pins /processing_system7_0/ENET0_GMII_RX_DV] [get_bd_ports ENET0_GMII_RX_DV]
+endgroup
+startgroup
+create_bd_port -dir I -type clk ENET0_GMII_TX_CLK
+connect_bd_net [get_bd_pins /processing_system7_0/ENET0_GMII_TX_CLK] [get_bd_ports ENET0_GMII_TX_CLK]
+endgroup
+startgroup
+create_bd_port -dir I -from 7 -to 0 ENET0_GMII_RXD
+connect_bd_net [get_bd_pins /processing_system7_0/ENET0_GMII_RXD] [get_bd_ports ENET0_GMII_RXD]
+endgroup
+startgroup
+create_bd_intf_port -mode Master -vlnv xilinx.com:interface:mdio_rtl:1.0 MDIO_ETHERNET_0
+connect_bd_intf_net [get_bd_intf_pins processing_system7_0/MDIO_ETHERNET_0] [get_bd_intf_ports MDIO_ETHERNET_0]
+endgroup
+save_bd_design
+generate_target all [get_files /root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd]
+synth_design -rtl -name rtl_1
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+refresh_design
+refresh_design
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+set_property LEFT 3 [get_bd_ports /ENET0_GMII_TXD]
+set_property LEFT 3 [get_bd_ports /ENET0_GMII_RXD]
+save_bd_design
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+file copy -force /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.runs/impl_1/hdmi_in_wrapper.sysdef /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk/hdmi_in_wrapper.hdf
+
+launch_sdk -workspace /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk -hwspec /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk/hdmi_in_wrapper.hdf
+file copy -force /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.runs/impl_1/hdmi_in_wrapper.sysdef /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk/hdmi_in_wrapper.hdf
+
+launch_sdk -workspace /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk -hwspec /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk/hdmi_in_wrapper.hdf

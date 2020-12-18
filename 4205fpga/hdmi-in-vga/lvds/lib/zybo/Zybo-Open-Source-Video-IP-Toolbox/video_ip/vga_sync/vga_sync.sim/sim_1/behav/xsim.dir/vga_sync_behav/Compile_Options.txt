@@ -1,0 +1,1 @@
+-wto "d29107d37c844073b21ba346e626dce9" --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "vga_sync_behav" "xil_defaultlib.vga_sync" -log "elaborate.log" 

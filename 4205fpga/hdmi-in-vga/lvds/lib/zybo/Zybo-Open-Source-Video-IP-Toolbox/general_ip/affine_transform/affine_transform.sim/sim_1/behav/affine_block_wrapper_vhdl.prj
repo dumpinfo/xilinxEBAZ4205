@@ -1,0 +1,20 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ipshared/c36b/uint_to_ieee754_fp.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_uint_to_ieee754_fp_0_0/sim/affine_block_uint_to_ieee754_fp_0_0.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_uint_to_ieee754_fp_0_1/sim/affine_block_uint_to_ieee754_fp_0_1.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ipshared/0995/ieee754_fp_multiplier.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_ieee754_fp_multiplier_0_0/sim/affine_block_ieee754_fp_multiplier_0_0.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_ieee754_fp_multiplier_1_0/sim/affine_block_ieee754_fp_multiplier_1_0.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_ieee754_fp_multiplier_1_1/sim/affine_block_ieee754_fp_multiplier_1_1.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_ieee754_fp_multiplier_1_2/sim/affine_block_ieee754_fp_multiplier_1_2.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ipshared/d9f2/ieee754_fp_adder_subtractor.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_ieee754_fp_adder_subtractor_0_0/sim/affine_block_ieee754_fp_adder_subtractor_0_0.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_ieee754_fp_adder_subtractor_0_1/sim/affine_block_ieee754_fp_adder_subtractor_0_1.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ipshared/9e57/ieee754_fp_to_uint.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_ieee754_fp_to_uint_0_0/sim/affine_block_ieee754_fp_to_uint_0_0.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/ip/affine_block_ieee754_fp_to_uint_0_1/sim/affine_block_ieee754_fp_to_uint_0_1.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.ip_user_files/bd/affine_block/hdl/affine_block.vhd"
+vhdl xil_defaultlib  "../../../affine_transform.srcs/sources_1/bd/affine_block/hdl/affine_block_wrapper.vhd"
+
+# Do not sort compile order
+nosort

@@ -1,0 +1,134 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:36:41 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Jun  3 09:09:57 2019
+# Process ID: 4963
+# Current directory: /root/rg/2018.3/lvds/tmp
+# Command line: vivado
+# Log file: /root/rg/2018.3/lvds/tmp/vivado.log
+# Journal file: /root/rg/2018.3/lvds/tmp/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.xpr
+update_compile_order -fileset sources_1
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+make_wrapper -files [get_files /root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd] -top
+synth_design -rtl -name rtl_1
+place_ports {vga_r[0]} J18
+place_ports {vga_r[1]} G19
+place_ports {vga_r[2]} H20
+place_ports {vga_r[3]} J19
+place_ports {vga_r[4]} K18
+place_ports {vga_r[5]} K19
+place_ports {vga_r[6]} J20
+place_ports {vga_r[7]} L16
+set_property package_pin "" [get_ports [list  {vga_r[7]}]]
+set_property package_pin "" [get_ports [list  {vga_r[6]}]]
+set_property package_pin "" [get_ports [list  {vga_r[5]}]]
+set_property package_pin "" [get_ports [list  {vga_r[5]}]]
+set_property package_pin "" [get_ports [list  {vga_r[6]}]]
+place_ports {vga_r[7]} J20
+place_ports {vga_r[6]} K19
+place_ports {vga_r[5]} T20
+save_constraints
+place_ports {vga_g[0]} L16
+place_ports {vga_g[1]} L19
+place_ports {vga_g[2]} M18
+place_ports {vga_g[3]} L20
+place_ports {vga_g[4]} M20
+place_ports {vga_g[5]} L17
+place_ports {vga_g[6]} M19
+place_ports {vga_g[7]} N20
+save_constraints
+place_ports {vga_b[0]} P18
+place_ports {vga_b[1]} M17
+place_ports {vga_b[2]} N17
+place_ports {vga_b[3]} P20
+set_property package_pin "" [get_ports [list  {vga_b[4]}]]
+set_property package_pin "" [get_ports [list  {vga_b[5]}]]
+place_ports {vga_b[4]} T19
+place_ports {vga_b[5]} R18
+startgroup
+set_property package_pin "" [get_ports [list  vga_vs]]
+place_ports {vga_b[6]} R19
+endgroup
+set_property package_pin "" [get_ports [list  {vga_b[6]}]]
+set_property package_pin "" [get_ports [list  {vga_b[5]}]]
+startgroup
+set_property package_pin "" [get_ports [list  vga_hs]]
+place_ports {vga_b[7]} P19
+endgroup
+place_ports {vga_b[6]} R18
+place_ports {vga_b[6]} R19
+place_ports {vga_b[5]} R18
+place_ports vga_hs V20
+place_ports vga_vs U19
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+create_bd_port -dir O pix_clk
+connect_bd_net [get_bd_ports pix_clk] [get_bd_pins axi_dynclk_0/PXL_CLK_O]
+set_property location {2216 684} [get_bd_ports pix_clk]
+save_bd_design
+generate_target all [get_files /root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd]
+refresh_design
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+set_property IOSTANDARD {} [get_ports [list pix_clk]]
+set_property IOSTANDARD LVCMOS33 [get_ports [list pix_clk]]
+place_ports pix_clk U20
+save_constraints
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+refresh_design
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+refresh_design
+refresh_design
+make_wrapper -files [get_files /root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd] -top
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+set_property IOSTANDARD LVCMOS33 [get_ports [list DDC_scl_io DDC_sda_io]]
+save_constraints
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+reset_run synth_1
+launch_runs synth_1 -jobs 8
+wait_on_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+refresh_design
+set_property IOSTANDARD LVCMOS33 [get_ports [list DDC_scl_io DDC_sda_io]]
+save_constraints
+reset_run impl_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+set_property package_pin "" [get_ports [list  {vga_b[0]}]]
+place_ports {vga_b[0]} P18
+place_ports {vga_b[1]} M17
+place_ports {vga_b[2]} N17
+place_ports {vga_b[3]} P20
+place_ports {vga_b[4]} R18
+place_ports {vga_b[5]} T19
+startgroup
+set_property package_pin "" [get_ports [list  vga_hs]]
+place_ports {vga_b[7]} P19
+endgroup
+startgroup
+set_property package_pin "" [get_ports [list  vga_vs]]
+place_ports {vga_b[6]} R19
+endgroup
+place_ports vga_hs V20
+place_ports vga_vs U19
+save_constraints
+reset_run impl_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+file mkdir /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk
+file copy -force /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.runs/impl_1/hdmi_in_wrapper.sysdef /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk/hdmi_in_wrapper.hdf
+
+launch_sdk -workspace /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk -hwspec /root/rg/2018.3/lvds/Zybo-hdmi-in/proj/hdmi-in.sdk/hdmi_in_wrapper.hdf
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
+open_bd_design {/root/rg/2018.3/lvds/Zybo-hdmi-in/src/bd/hdmi_in/hdmi_in.bd}
