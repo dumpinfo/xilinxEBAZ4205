@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://hhuysqt.github.io/zynq1/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+    
+
+    
+
+
+
+    
+    
+    
+    
+    
+    <title>zynq[1] 矿板helloworld | hhuysqt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="zynq">
+    <meta name="description" content="最近矿难，某宝某鱼上都出现了大量矿机控制板。。。ASIC负责挖矿，控制板负责联网、监视、控制之类。控制板不乏有各种水果派，像香橙派、树莓派、狗骨头之类的所谓“极客玩具”在其之列，想必国内水果派厂家活的是相当滋润。。。光靠极客教育哪有什么赚头，极客大都很穷的，像我这样看到这么便宜的“zynq开发板”，便忍不住要跟风收一波垃圾了。。。 某鱼上EBAZ4205控制板泛滥，它出自翼比特E9+矿机。它的老版">
+<meta name="keywords" content="zynq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zynq[1] 矿板helloworld">
+<meta property="og:url" content="https://hhuysqt.github.io/zynq1/index.html">
+<meta property="og:site_name" content="hhuysqt">
+<meta property="og:description" content="最近矿难，某宝某鱼上都出现了大量矿机控制板。。。ASIC负责挖矿，控制板负责联网、监视、控制之类。控制板不乏有各种水果派，像香橙派、树莓派、狗骨头之类的所谓“极客玩具”在其之列，想必国内水果派厂家活的是相当滋润。。。光靠极客教育哪有什么赚头，极客大都很穷的，像我这样看到这么便宜的“zynq开发板”，便忍不住要跟风收一波垃圾了。。。 某鱼上EBAZ4205控制板泛滥，它出自翼比特E9+矿机。它的老版">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/ebazE9p.jpg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/ebaz4205-3.jpg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/zynqbd.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/ebaz4205-2.jpg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado1.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado2.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado3.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado4.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado5.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado7.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado6.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado8.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado10.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado9.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado11.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado12.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/vivado13.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/sdk1.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/sdk2.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/sdk3.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/telnet.jpeg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/ebaz4205-1.jpg">
+<meta property="og:image" content="https://hhuysqt.github.io/zynq1/bqb.jpg">
+<meta property="og:updated_time" content="2019-04-28T07:26:10.592Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zynq[1] 矿板helloworld">
+<meta name="twitter:description" content="最近矿难，某宝某鱼上都出现了大量矿机控制板。。。ASIC负责挖矿，控制板负责联网、监视、控制之类。控制板不乏有各种水果派，像香橙派、树莓派、狗骨头之类的所谓“极客玩具”在其之列，想必国内水果派厂家活的是相当滋润。。。光靠极客教育哪有什么赚头，极客大都很穷的，像我这样看到这么便宜的“zynq开发板”，便忍不住要跟风收一波垃圾了。。。 某鱼上EBAZ4205控制板泛滥，它出自翼比特E9+矿机。它的老版">
+<meta name="twitter:image" content="https://hhuysqt.github.io/zynq1/ebazE9p.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="hhuysqt" href="https://hhuysqt.github.io/atom.xml">
+    
+    <link rel="shortcut icon" href="https://hhuysqt.github.io/img/m.png">
+    <link rel="stylesheet" href="./zynq[1] 矿板helloworld _ hhuysqt_files/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+  <!-- highlight.js代码高亮主题 css 引入-->
+  <link rel="stylesheet" href="./zynq[1] 矿板helloworld _ hhuysqt_files/github.css">
+  <script src="./zynq[1] 矿板helloworld _ hhuysqt_files/highlight.min.js"></script>
+<!--
+  <script src="/plugins/highlight/highlight.pack.js"></script>
+-->
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- highlight.js代码高亮主题 css 引入-->
+</head>
+
+<body>
+    <div id="loading" class=""></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://hhuysqt.github.io/" class="avatar waves-effect waves-circle waves-light">
+          <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">hhuysqt</h5>
+          <a href="mailto:1020988872@qq.com" title="1020988872@qq.com" class="mail">1020988872@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="https://hhuysqt.github.io/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://hhuysqt.github.io/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                所有文章
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://hhuysqt.github.io/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                索引
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/hhuysqt" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.zhihu.com/people/hhuysqt/activities" target="_blank">
+                <i class="icon icon-lg icon-search-plus"></i>
+                知乎
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://hhuysqt.github.io/about">
+                <i class="icon icon-lg icon-male"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">zynq[1] 矿板helloworld</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale in">
+        <h1 class="title">zynq[1] 矿板helloworld</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-04-26T11:56:38.000Z" itemprop="datePublished" class="page-time">
+  2019-04-26
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>目录</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3 active"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#板子概况"><span class="post-toc-number">1.</span> <span class="post-toc-text">板子概况</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#开发工程"><span class="post-toc-number">2.</span> <span class="post-toc-text">开发工程</span></a><ol class="post-toc-child post-toc-shrink"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#SOC启动配置"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">SOC启动配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#Vivado操作流程"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Vivado操作流程</span></a><ol class="post-toc-child post-toc-shrink"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#首先新建个工程"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">首先新建个工程</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#Create-Board-Design"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">Create Board Design</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#左边栏Generate-Block-Design"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">左边栏Generate Block Design</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#左边栏Run-Synthesis"><span class="post-toc-number">2.2.4.</span> <span class="post-toc-text">左边栏Run Synthesis</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#左边栏Run-Implementation-和-Generate-Bitstream"><span class="post-toc-number">2.2.5.</span> <span class="post-toc-text">左边栏Run Implementation 和 Generate Bitstream</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#输出设计"><span class="post-toc-number">2.2.6.</span> <span class="post-toc-text">输出设计</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#进入SDK"><span class="post-toc-number">2.2.7.</span> <span class="post-toc-text">进入SDK</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#SDK操作流程"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">SDK操作流程</span></a><ol class="post-toc-child post-toc-shrink"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#首先需要新建FSBL。"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">首先需要新建FSBL。</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#然后才新建helloworld。。"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">然后才新建helloworld。。</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#最后生成启动文件BOOT-bin"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text">最后生成启动文件BOOT.bin</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#点亮板子"><span class="post-toc-number">2.3.4.</span> <span class="post-toc-text">点亮板子</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq1/#测试网口"><span class="post-toc-number">2.3.5.</span> <span class="post-toc-text">测试网口</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-zynq1" class="post-article article-type-post fade in" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">zynq[1] 矿板helloworld</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-04-26 19:56:38" datetime="2019-04-26T11:56:38.000Z" itemprop="datePublished">2019-04-26</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display: inline;">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv">30</span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>最近矿难，某宝某鱼上都出现了大量矿机控制板。。。ASIC负责挖矿，控制板负责联网、监视、控制之类。控制板不乏有各种水果派，像香橙派、树莓派、狗骨头之类的所谓“极客玩具”在其之列，想必国内水果派厂家活的是相当滋润。。。光靠极客教育哪有什么赚头，极客大都很穷的，像我这样看到这么便宜的“zynq开发板”，便忍不住要跟风收一波垃圾了。。。</p>
+<p>某鱼上<code>EBAZ4205</code>控制板泛滥，它出自<code>翼比特E9+</code>矿机。它的老版控制卡<code>EBAZ4203</code>配置与其基本一样。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/ebazE9p.jpg" alt="ebaz4205" title="">
+                </div>
+                <div class="image-caption">ebaz4205</div>
+            </figure>
+<p><strong>下面一大坨都是计算卡，上面一小块才是控制板</strong></p>
+<a id="more"></a>
+<h3 id="板子概况"><a href="https://hhuysqt.github.io/zynq1/#板子概况" class="headerlink" title="板子概况"></a>板子概况</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/ebaz4205-3.jpg" alt="ebaz4205" title="">
+                </div>
+                <div class="image-caption">ebaz4205</div>
+            </figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">主控</td>
+<td style="text-align:left">XC7Z010CLG400-1</td>
+</tr>
+<tr>
+<td style="text-align:left">内存</td>
+<td style="text-align:left">256MB DDR3，EM6GD16EWKG或者MT41K128M16</td>
+</tr>
+<tr>
+<td style="text-align:left">nand</td>
+<td style="text-align:left">128MB SLC</td>
+</tr>
+<tr>
+<td style="text-align:left">以太网</td>
+<td style="text-align:left">百兆网卡，IP101GA</td>
+</tr>
+<tr>
+<td style="text-align:left">供电</td>
+<td style="text-align:left">5V也行</td>
+</tr>
+<tr>
+<td style="text-align:left">其他</td>
+<td style="text-align:left">TF卡，UART1，2个风扇口，14针jtag，3个20pin IO口</td>
+</tr>
+</tbody>
+</table>
+<h3 id="开发工程"><a href="https://hhuysqt.github.io/zynq1/#开发工程" class="headerlink" title="开发工程"></a>开发工程</h3><h4 id="SOC启动配置"><a href="https://hhuysqt.github.io/zynq1/#SOC启动配置" class="headerlink" title="SOC启动配置"></a>SOC启动配置</h4><p>ZYNQ系列的SOC集成了双核ARM Cortex-A9和FPGA。整个SOC分为<code>PS</code>（processing system）和<code>PL</code>（programmable logic）两部分。PS包括处理器、片上AMBA总线、存储控制器、部分外设以及固定的IO口；PL就是FPGA。ZYNQ 7010处理器主频可以到约600MHz，FPGA有约28K个LE。<br></p><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/zynqbd.jpeg" alt="zynq" title="">
+                </div>
+                <div class="image-caption">zynq</div>
+            </figure><p></p>
+<p>ZYNQ的PS部分可以抛开PL部分而独立运行，因为PS的外设都默认绑定了一些IO口（<code>MIO</code>），内存控制器之类的IO口还是不可更改的，这时候就可以像开发其他ARM SOC那样去玩ZYNQ。MIO是有限的，一些外设端口冲突的话可以通过<code>EMIO</code>绕道PL将其引出，这时候就需要管PL部分了。</p>
+<p>ZYNQ的启动分为三步：</p>
+<ul>
+<li><code>BOOT ROM</code>，根据引脚配置选择从哪里启动，如QSPI、nand/nor flash、SD卡等。将<code>FSBL</code>（first stage bootloader）加载到片上内存里。7010的片上内存有256k。</li>
+<li><code>FSBL</code>，初始化更多的MIO口，初始化DDR，还可以初始化PL部分，然后将应用程序搬到DDR中。初始化部分由vivado直接生成，即那个上万行的<code>ps7_init.c</code>。FSBL可以直接用Xilinx SDK的例子工程，相当于这些工作都可以点点鼠标就完成了。</li>
+<li><code>应用程序</code>。可以直接是用户的应用程序，也可以是又一个loader，比如uboot之类的，剩下的事情就由程序员自己做决定了。</li>
+</ul>
+<p>应当指出，FSBL相当于是uboot SPL的地位。在Xilinx uboot工程中，那个上万行的初始化c程序就编译进SPL中去了，所以如果用SDK的FSBL就不需要uboot的SPL了。</p>
+<p>这块板子的<code>R2577</code>和<code>R2584</code>电阻用于配置启动设备。把<code>R2584</code>焊到<code>R2577</code>上，将原来nand启动改为SD卡启动。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/ebaz4205-2.jpg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<h4 id="Vivado操作流程"><a href="https://hhuysqt.github.io/zynq1/#Vivado操作流程" class="headerlink" title="Vivado操作流程"></a>Vivado操作流程</h4><p>利用Xilinx那套笨重的开发环境，helloworld工程完全可以用鼠标操作出来，一行代码都不用写。。</p>
+<h5 id="首先新建个工程"><a href="https://hhuysqt.github.io/zynq1/#首先新建个工程" class="headerlink" title="首先新建个工程"></a>首先新建个工程</h5><p>一直next到选择芯片。选<code>xc7z010clg400-1</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado1.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<p>接下来就顺着左边栏<code>Flow Navigator</code>进行操作。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado2.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<h5 id="Create-Board-Design"><a href="https://hhuysqt.github.io/zynq1/#Create-Board-Design" class="headerlink" title="Create Board Design"></a>Create Board Design</h5><p>点加号添加<code>ZYNQ7 Processing System</code>:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado3.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<p>双击出来的zynq7 processing system蓝框框，配置PS系统：</p>
+<ul>
+<li><p>添加nand控制器，默认就行了：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado4.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+</li>
+<li><p>添加MIO设置。勾上ENET0、SD0、UART1。注意引脚配置：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado5.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+</li>
+<li><p>设置外设时钟。把网口改成百兆的：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado7.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+</li>
+<li><p>设置DDR。幸好我们的<code>MT41K128M16</code>有默认参数配置：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado6.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+</li>
+</ul>
+<p>因为板子的网口通过EMIO引出，所以我们需要一个个手动分配引脚。但是这个IP是GMII千兆网口，TX RX有8位，而百兆网卡用的MII接口TX RX只有4位，<strong>必须显式地加两个concat模块来将8位转为4位</strong>，否则多余的引脚引出了但是不分配IO口，最后生成bitstream时候会报错。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado8.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<p>将GMII的TX、RX引到各自的concat模块处，将GMII其他引脚以及MDIO引出：右键点击<code>Make External</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado10.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<p>将<code>FCLK_CLK0</code>跟<code>M_AXI_GP0_ACLK</code>连起来，最后点击上方栏的<code>Run Block Automation</code>完成剩下的工作。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado9.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<p>完成后的效果：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado11.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<h5 id="左边栏Generate-Block-Design"><a href="https://hhuysqt.github.io/zynq1/#左边栏Generate-Block-Design" class="headerlink" title="左边栏Generate Block Design"></a>左边栏Generate Block Design</h5><p>先<code>Generate Block Design</code>，然后右键<code>Source</code>框下面的bd文件，<code>Create HDL Wrapper</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado12.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<h5 id="左边栏Run-Synthesis"><a href="https://hhuysqt.github.io/zynq1/#左边栏Run-Synthesis" class="headerlink" title="左边栏Run Synthesis"></a>左边栏Run Synthesis</h5><p>先综合一次，然后打开<code>Open Synthesized Design</code>-&gt;<code>Constraint Wizard</code>，分配引脚。这时需要新建一个constraint文件。</p>
+<p>将网口的引脚都设置为<code>LVCMOS33</code>电平，然后逐个分配引脚。。。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/vivado13.jpeg" alt="vivado" title="">
+                </div>
+                <div class="image-caption">vivado</div>
+            </figure>
+<p>设置完成后<code>Ctrl-S</code>保存，约束文件生成如下：</p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">IOSTANDARD</span> <span class="hljs-selector-tag">LVCMOS33</span> <span class="hljs-selector-attr">[get_ports ENET0_GMII_RX_CLK_0]</span>
+...
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">U14</span> <span class="hljs-selector-attr">[get_ports ENET0_GMII_RX_CLK_0]</span>
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">U15</span> <span class="hljs-selector-attr">[get_ports ENET0_GMII_TX_CLK_0]</span>
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">W19</span> <span class="hljs-selector-attr">[get_ports {ENET0_GMII_TX_EN_0[0]</span>}]
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">W18</span> <span class="hljs-selector-attr">[get_ports {enet0_gmii_txd[0]</span>}]
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">Y18</span> <span class="hljs-selector-attr">[get_ports {enet0_gmii_txd[1]</span>}]
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">V18</span> <span class="hljs-selector-attr">[get_ports {enet0_gmii_txd[2]</span>}]
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">Y19</span> <span class="hljs-selector-attr">[get_ports {enet0_gmii_txd[3]</span>}]
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">W16</span> <span class="hljs-selector-attr">[get_ports ENET0_GMII_RX_DV_0]</span>
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">W15</span> <span class="hljs-selector-attr">[get_ports MDIO_ETHERNET_0_0_mdc]</span>
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">Y14</span> <span class="hljs-selector-attr">[get_ports MDIO_ETHERNET_0_0_mdio_io]</span>
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">Y16</span> <span class="hljs-selector-attr">[get_ports {enet0_gmii_rxd[0]</span>}]
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">V16</span> <span class="hljs-selector-attr">[get_ports {enet0_gmii_rxd[1]</span>}]
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">V17</span> <span class="hljs-selector-attr">[get_ports {enet0_gmii_rxd[2]</span>}]
+<span class="hljs-selector-tag">set_property</span> <span class="hljs-selector-tag">PACKAGE_PIN</span> <span class="hljs-selector-tag">Y17</span> <span class="hljs-selector-attr">[get_ports {enet0_gmii_rxd[3]</span>}]
+</code></pre><p><strong>然后再综合一次。。。</strong></p>
+<h5 id="左边栏Run-Implementation-和-Generate-Bitstream"><a href="https://hhuysqt.github.io/zynq1/#左边栏Run-Implementation-和-Generate-Bitstream" class="headerlink" title="左边栏Run Implementation 和 Generate Bitstream"></a>左边栏Run Implementation 和 Generate Bitstream</h5><p>要跑一段时间。。。</p>
+<h5 id="输出设计"><a href="https://hhuysqt.github.io/zynq1/#输出设计" class="headerlink" title="输出设计"></a>输出设计</h5><p><code>File</code>-&gt;<code>Export</code>-&gt;<code>Export Hardware</code></p>
+<p>记得勾上<code>Include Bitstream</code>。</p>
+<h5 id="进入SDK"><a href="https://hhuysqt.github.io/zynq1/#进入SDK" class="headerlink" title="进入SDK"></a>进入SDK</h5><p><code>File</code>-&gt;<code>Launch SDK</code></p>
+<h4 id="SDK操作流程"><a href="https://hhuysqt.github.io/zynq1/#SDK操作流程" class="headerlink" title="SDK操作流程"></a>SDK操作流程</h4><h5 id="首先需要新建FSBL。"><a href="https://hhuysqt.github.io/zynq1/#首先需要新建FSBL。" class="headerlink" title="首先需要新建FSBL。"></a>首先需要新建FSBL。</h5><p><code>File</code>-&gt;<code>New</code>-&gt;<code>Application Project</code>，Next到<code>Templates</code>，选<code>Zynq FSBL</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/sdk1.jpeg" alt="sdk" title="">
+                </div>
+                <div class="image-caption">sdk</div>
+            </figure>
+<p>然后它会自动开始编译。。。</p>
+<h5 id="然后才新建helloworld。。"><a href="https://hhuysqt.github.io/zynq1/#然后才新建helloworld。。" class="headerlink" title="然后才新建helloworld。。"></a>然后才新建helloworld。。</h5><p><code>File</code>-&gt;<code>New</code>-&gt;<code>Application Project</code>，Next到<code>Templates</code>，选<code>Hello World</code>。它也会自动开始编译，不出意外的话就完事了。</p>
+<h5 id="最后生成启动文件BOOT-bin"><a href="https://hhuysqt.github.io/zynq1/#最后生成启动文件BOOT-bin" class="headerlink" title="最后生成启动文件BOOT.bin"></a>最后生成启动文件BOOT.bin</h5><p>左边栏右键helloworld工程，<code>Create Boot Image</code>。可以看到这个启动文件包括了三部分：</p>
+<ul>
+<li>fsbl</li>
+<li>bitstream</li>
+<li>应用程序</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/sdk2.jpeg" alt="sdk" title="">
+                </div>
+                <div class="image-caption">sdk</div>
+            </figure>
+<h5 id="点亮板子"><a href="https://hhuysqt.github.io/zynq1/#点亮板子" class="headerlink" title="点亮板子"></a>点亮板子</h5><p>将一张SD卡格式化为fat文件系统，将<code>bootimage/BOOT.bin</code>丢进去，插上电就能启动了。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/sdk3.jpeg" alt="sdk" title="">
+                </div>
+                <div class="image-caption">sdk</div>
+            </figure>
+<h5 id="测试网口"><a href="https://hhuysqt.github.io/zynq1/#测试网口" class="headerlink" title="测试网口"></a>测试网口</h5><p>SDK里面新建<code>lwIP Echo Server</code>工程，等它编译完，生成BOOT.bin，拷到SD卡里。插好网线，在终端中<code>telnet</code>它的7号端口，输入一行，回车，然后它就将你输入的东西返回来了。。。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/telnet.jpeg" alt="sdk" title="">
+                </div>
+                <div class="image-caption">sdk</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/ebaz4205-1.jpg" alt="debugging" title="">
+                </div>
+                <div class="image-caption">debugging</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/bqb.jpg" alt="debugging" title="">
+                </div>
+                <div class="image-caption">debugging</div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-04-28T07:26:10.592Z" itemprop="dateUpdated">2019-04-28 15:26:10</time>
+</span><br>
+
+
+        
+        欢迎留言，大佬轻拍。。
+        
+    </div>
+    
+    <footer>
+        <a href="https://hhuysqt.github.io/">
+            <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/avatar.jpg" alt="hhuysqt">
+            hhuysqt
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link waves-effect waves-button" href="https://hhuysqt.github.io/tags/zynq/">zynq</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://hhuysqt.github.io/zynq1/&amp;title=%E3%80%8Azynq[1]%20%E7%9F%BF%E6%9D%BFhelloworld%E3%80%8B%20%E2%80%94%20hhuysqt&amp;pic=https://hhuysqt.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://hhuysqt.github.io/zynq1/&amp;title=%E3%80%8Azynq[1]%20%E7%9F%BF%E6%9D%BFhelloworld%E3%80%8B%20%E2%80%94%20hhuysqt&amp;source=%E6%9C%80%E8%BF%91%E7%9F%BF%E9%9A%BE%EF%BC%8C%E6%9F%90%E5%AE%9D%E6%9F%90%E9%B1%BC%E4%B8%8A%E9%83%BD%E5%87%BA%E7%8E%B0%E4%BA%86%E5%A4%A7%E9%87%8F%E7%9F%BF%E6%9C%BA%E6%8E%A7%E5%88%B6%E6%9D%BF%E3%80%82%E3%80%82%E3%80%82ASIC%E8%B4%9F%E8%B4%A3%E6%8C%96%E7%9F%BF%EF%BC%8C%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%B4%9F%E8%B4%A3%E8%81%94%E7%BD%91%E3%80%81%E7%9B%91%E8%A7%86%E3%80%81%E6%8E%A7%E5%88%B6%E4%B9%8B%E7%B1%BB%E3%80%82%E6%8E%A7%E5%88%B6%E6%9D%BF%E4%B8%8D%E4%B9%8F%E6%9C%89%E5%90%84%E7%A7%8D%E6%B0%B4%E6%9E%9C%E6%B4%BE%EF%BC%8C%E5%83%8F%E9%A6%99%E6%A9%99%E6%B4%BE%E3%80%81%E6%A0%91%E8%8E%93%E6%B4%BE%E3%80%81%E7%8B%97%E9%AA%A8%E5%A4%B4%E4%B9%8B%E7%B1%BB%E7%9A%84%E6%89%80..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://hhuysqt.github.io/zynq1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=%E3%80%8Azynq[1]%20%E7%9F%BF%E6%9D%BFhelloworld%E3%80%8B%20%E2%80%94%20hhuysqt&amp;url=https://hhuysqt.github.io/zynq1/&amp;via=https://hhuysqt.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://hhuysqt.github.io/zynq1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="https://hhuysqt.github.io/zynq2/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">zynq[2] Linux from scratch</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="https://hhuysqt.github.io/pulpino2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">pulpino[2] nuttx ELF</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments"><div lang="en-US" class="gitment-container gitment-root-container"><div><div lang="en-US" class="gitment-container gitment-header-container"><span class="gitment-header-like-btn">
+    <svg class="gitment-heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><path d="M25 39.7l-.6-.5C11.5 28.7 8 25 8 19c0-5 4-9 9-9 4.1 0 6.4 2.3 8 4.1 1.6-1.8 3.9-4.1 8-4.1 5 0 9 4 9 9 0 6-3.5 9.7-16.4 20.2l-.6.5zM17 12c-3.9 0-7 3.1-7 7 0 5.1 3.2 8.5 15 18.1 11.8-9.6 15-13 15-18.1 0-3.9-3.1-7-7-7-3.5 0-5.4 2.1-6.9 3.8L25 17.1l-1.1-1.3C22.4 14.1 20.5 12 17 12z"></path></svg>
+    Like
+    
+  </span><span>
+    
+  </span><a class="gitment-header-issue-link" href="https://github.com/hhuysqt/hhuysqt.github.io/issues/36" target="_blank">Issue Page</a></div></div><div><div lang="en-US" class="gitment-container gitment-comments-container"><div class="gitment-comments-empty">No Comment Yet</div></div></div><div><div lang="en-US" class="gitment-container gitment-editor-container">
+      <a class="gitment-editor-avatar" href="https://github.com/login/oauth/authorize?scope=public_repo&amp;redirect_uri=https%3A%2F%2Fhhuysqt.github.io%2Fzynq1%2F&amp;client_id=f3accf3be337dcd6d61d&amp;client_secret=af75b9e501d76dc85f1f0417d7307419df49aeec" title="login with GitHub">
+              <svg class="gitment-github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><path d="M25 10c-8.3 0-15 6.7-15 15 0 6.6 4.3 12.2 10.3 14.2.8.1 1-.3 1-.7v-2.6c-4.2.9-5.1-2-5.1-2-.7-1.7-1.7-2.2-1.7-2.2-1.4-.9.1-.9.1-.9 1.5.1 2.3 1.5 2.3 1.5 1.3 2.3 3.5 1.6 4.4 1.2.1-1 .5-1.6 1-2-3.3-.4-6.8-1.7-6.8-7.4 0-1.6.6-3 1.5-4-.2-.4-.7-1.9.1-4 0 0 1.3-.4 4.1 1.5 1.2-.3 2.5-.5 3.8-.5 1.3 0 2.6.2 3.8.5 2.9-1.9 4.1-1.5 4.1-1.5.8 2.1.3 3.6.1 4 1 1 1.5 2.4 1.5 4 0 5.8-3.5 7-6.8 7.4.5.5 1 1.4 1 2.8v4.1c0 .4.3.9 1 .7 6-2 10.2-7.6 10.2-14.2C40 16.7 33.3 10 25 10z"></path></svg>
+            </a>
+    
+    <div class="gitment-editor-main">
+      <div class="gitment-editor-header">
+        <nav class="gitment-editor-tabs">
+          <button class="gitment-editor-tab gitment-selected">Write</button>
+          <button class="gitment-editor-tab">Preview</button>
+        </nav>
+        <div class="gitment-editor-login">
+          <a class="gitment-editor-login-link" href="https://github.com/login/oauth/authorize?scope=public_repo&amp;redirect_uri=https%3A%2F%2Fhhuysqt.github.io%2Fzynq1%2F&amp;client_id=f3accf3be337dcd6d61d&amp;client_secret=af75b9e501d76dc85f1f0417d7307419df49aeec">Login</a> with GitHub
+        </div>
+      </div>
+      <div class="gitment-editor-body">
+        <div class="gitment-editor-write-field">
+          <textarea placeholder="Leave a comment" title="Login to Comment" disabled=""></textarea>
+        </div>
+        <div class="gitment-editor-preview-field gitment-hidden">
+          <div class="gitment-editor-preview gitment-markdown"></div>
+        </div>
+      </div>
+    </div>
+    <div class="gitment-editor-footer">
+      <a class="gitment-editor-footer-tip" href="https://guides.github.com/features/mastering-markdown/" target="_blank">
+        Styling with Markdown is supported
+      </a>
+      <button class="gitment-editor-submit" title="Login to Comment" disabled="">Comment</button>
+    </div>
+  </div></div><div><div lang="en-US" class="gitment-container gitment-footer-container">
+    Powered by
+    <a class="gitment-footer-project-link" href="https://github.com/imsun/gitment" target="_blank">
+      Gitment
+    </a>
+  </div></div></div><div id="gitment_thread"></div>
+    <link rel="stylesheet" href="./zynq[1] 矿板helloworld _ hhuysqt_files/default.css">
+    <script src="./zynq[1] 矿板helloworld _ hhuysqt_files/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'hhuysqt',
+            repo: 'hhuysqt.github.io',
+            oauth: {
+                client_id: 'f3accf3be337dcd6d61d',
+                client_secret: 'af75b9e501d76dc85f1f0417d7307419df49aeec',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display: inline;">
+        站点总访客数：<span id="busuanzi_value_site_uv">21</span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display: inline;">
+        站点总访问量：<span id="busuanzi_value_site_pv">187</span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="https://hhuysqt.github.io/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>hhuysqt © 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li class=" waves-effect waves-block">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://hhuysqt.github.io/zynq1/&amp;title=%E3%80%8Azynq[1]%20%E7%9F%BF%E6%9D%BFhelloworld%E3%80%8B%20%E2%80%94%20hhuysqt&amp;pic=https://hhuysqt.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://hhuysqt.github.io/zynq1/&amp;title=%E3%80%8Azynq[1]%20%E7%9F%BF%E6%9D%BFhelloworld%E3%80%8B%20%E2%80%94%20hhuysqt&amp;source=%E6%9C%80%E8%BF%91%E7%9F%BF%E9%9A%BE%EF%BC%8C%E6%9F%90%E5%AE%9D%E6%9F%90%E9%B1%BC%E4%B8%8A%E9%83%BD%E5%87%BA%E7%8E%B0%E4%BA%86%E5%A4%A7%E9%87%8F%E7%9F%BF%E6%9C%BA%E6%8E%A7%E5%88%B6%E6%9D%BF%E3%80%82%E3%80%82%E3%80%82ASIC%E8%B4%9F%E8%B4%A3%E6%8C%96%E7%9F%BF%EF%BC%8C%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%B4%9F%E8%B4%A3%E8%81%94%E7%BD%91%E3%80%81%E7%9B%91%E8%A7%86%E3%80%81%E6%8E%A7%E5%88%B6%E4%B9%8B%E7%B1%BB%E3%80%82%E6%8E%A7%E5%88%B6%E6%9D%BF%E4%B8%8D%E4%B9%8F%E6%9C%89%E5%90%84%E7%A7%8D%E6%B0%B4%E6%9E%9C%E6%B4%BE%EF%BC%8C%E5%83%8F%E9%A6%99%E6%A9%99%E6%B4%BE%E3%80%81%E6%A0%91%E8%8E%93%E6%B4%BE%E3%80%81%E7%8B%97%E9%AA%A8%E5%A4%B4%E4%B9%8B%E7%B1%BB%E7%9A%84%E6%89%80..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://hhuysqt.github.io/zynq1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=%E3%80%8Azynq[1]%20%E7%9F%BF%E6%9D%BFhelloworld%E3%80%8B%20%E2%80%94%20hhuysqt&amp;url=https://hhuysqt.github.io/zynq1/&amp;via=https://hhuysqt.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://hhuysqt.github.io/zynq1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="./zynq[1] 矿板helloworld _ hhuysqt_files/saved_resource" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="./zynq[1] 矿板helloworld _ hhuysqt_files/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="./zynq[1] 矿板helloworld _ hhuysqt_files/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl"></template>
+
+<script src="./zynq[1] 矿板helloworld _ hhuysqt_files/search.min.js" async=""></script>
+
+
+
+
+
+
+<script async="" src="./zynq[1] 矿板helloworld _ hhuysqt_files/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+</body></html>

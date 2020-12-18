@@ -1,0 +1,7 @@
+//arch = zynq; split = false; format = BIN
+the_ROM_image:
+{
+	[bootloader]/home/yw/fpga/gpio_test/gpio_test.sdk/fsbl/Debug/fsbl.elf
+	/home/yw/fpga/gpio_test/gpio_test.sdk/design_1_wrapper_hw_platform_0/design_1_wrapper.bit
+	/home/yw/fpga/gpio_test/gpio_test.sdk/gpio_test/Debug/gpio_test.elf
+}

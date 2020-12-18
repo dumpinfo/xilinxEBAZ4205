@@ -1,0 +1,15 @@
+下载ebaz4205文件夹，里面有个镜像xillinux-2.0.img
+把这个镜像烧入TF卡，板子启动电阻设为从TF卡启动，就是拆掉R2584上的电阻，焊接到R2577
+焊上SD卡座
+然后还有。。。
+把启动分区，就是TF卡的FAT32分区，里面的uimage删掉
+把文件夹里面的boot.bin   system.bit.bin   uimage Env.txt 等复制到fat32 分区
+脚本有问题，可以把zynq-ebaz.dtb改名字成devicetree.dtb
+
+debian和ubuntu的编译说明：https://www.digikey.com/eewiki/display/linuxonarm/Zynq-7000#Zynq-7000-Ubuntu18.04LTS
+
+http://www.360doc.com/content/13/1113/20/8744436_328989607.shtml
+
+https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841996/Linux
+
+https://whycan.cn/t_2297.html

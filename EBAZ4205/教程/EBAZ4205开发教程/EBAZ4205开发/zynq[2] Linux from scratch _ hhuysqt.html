@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://hhuysqt.github.io/zynq2/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+    
+
+    
+
+
+
+    
+    
+    
+    
+    
+    <title>zynq[2] Linux from scratch | hhuysqt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="zynq">
+    <meta name="description" content="Xilinx有个工具叫PetaLinux，它可以一键生成uboot、Linux、根文件系统。但是按照惯例我们还是自己敲命令一个个来吧。 Xilinx有个wiki讲述如何一步步做Linux from scratch。有些步骤是多余的，比如编译设备树的工具链。鉴于我们的EBAZ4205是块野生的板子，需要稍微做一些配置。 安装vivado、SDK时候顺便安装了arm-linux-gnueabihf-以">
+<meta name="keywords" content="zynq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zynq[2] Linux from scratch">
+<meta property="og:url" content="https://hhuysqt.github.io/zynq2/index.html">
+<meta property="og:site_name" content="hhuysqt">
+<meta property="og:description" content="Xilinx有个工具叫PetaLinux，它可以一键生成uboot、Linux、根文件系统。但是按照惯例我们还是自己敲命令一个个来吧。 Xilinx有个wiki讲述如何一步步做Linux from scratch。有些步骤是多余的，比如编译设备树的工具链。鉴于我们的EBAZ4205是块野生的板子，需要稍微做一些配置。 安装vivado、SDK时候顺便安装了arm-linux-gnueabihf-以">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-27T15:15:27.421Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zynq[2] Linux from scratch">
+<meta name="twitter:description" content="Xilinx有个工具叫PetaLinux，它可以一键生成uboot、Linux、根文件系统。但是按照惯例我们还是自己敲命令一个个来吧。 Xilinx有个wiki讲述如何一步步做Linux from scratch。有些步骤是多余的，比如编译设备树的工具链。鉴于我们的EBAZ4205是块野生的板子，需要稍微做一些配置。 安装vivado、SDK时候顺便安装了arm-linux-gnueabihf-以">
+    
+        <link rel="alternate" type="application/atom+xml" title="hhuysqt" href="https://hhuysqt.github.io/atom.xml">
+    
+    <link rel="shortcut icon" href="https://hhuysqt.github.io/img/m.png">
+    <link rel="stylesheet" href="./zynq[2] Linux from scratch _ hhuysqt_files/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+  <!-- highlight.js代码高亮主题 css 引入-->
+  <link rel="stylesheet" href="./zynq[2] Linux from scratch _ hhuysqt_files/github.css">
+  <script src="./zynq[2] Linux from scratch _ hhuysqt_files/highlight.min.js"></script>
+<!--
+  <script src="/plugins/highlight/highlight.pack.js"></script>
+-->
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- highlight.js代码高亮主题 css 引入-->
+</head>
+
+<body>
+    <div id="loading" class=""></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://hhuysqt.github.io/" class="avatar waves-effect waves-circle waves-light">
+          <img src="./zynq[2] Linux from scratch _ hhuysqt_files/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">hhuysqt</h5>
+          <a href="mailto:1020988872@qq.com" title="1020988872@qq.com" class="mail">1020988872@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="https://hhuysqt.github.io/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://hhuysqt.github.io/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                所有文章
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://hhuysqt.github.io/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                索引
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/hhuysqt" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.zhihu.com/people/hhuysqt/activities" target="_blank">
+                <i class="icon icon-lg icon-search-plus"></i>
+                知乎
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://hhuysqt.github.io/about">
+                <i class="icon icon-lg icon-male"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">zynq[2] Linux from scratch</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale in">
+        <h1 class="title">zynq[2] Linux from scratch</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-04-27T04:35:38.000Z" itemprop="datePublished" class="page-time">
+  2019-04-27
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>目录</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3 active"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq2/#uboot"><span class="post-toc-number">1.</span> <span class="post-toc-text">uboot</span></a><ol class="post-toc-child post-toc-expand"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq2/#改改配置"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">改改配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq2/#生成BOOT-bin"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">生成BOOT.bin</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq2/#Linux内核"><span class="post-toc-number">2.</span> <span class="post-toc-text">Linux内核</span></a><ol class="post-toc-child post-toc-shrink"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq2/#设备树"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">设备树</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq2/#编译"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">编译</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq2/#rootfs"><span class="post-toc-number">3.</span> <span class="post-toc-text">rootfs</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="https://hhuysqt.github.io/zynq2/#启动！"><span class="post-toc-number">4.</span> <span class="post-toc-text">启动！</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-zynq2" class="post-article article-type-post fade in" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">zynq[2] Linux from scratch</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-04-27 12:35:38" datetime="2019-04-27T04:35:38.000Z" itemprop="datePublished">2019-04-27</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display: inline;">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv">14</span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Xilinx有个工具叫<code>PetaLinux</code>，它可以一键生成uboot、Linux、根文件系统。但是按照惯例我们还是自己敲命令一个个来吧。</p>
+<p>Xilinx有个<a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841738/Getting+Started" target="_blank" rel="noopener">wiki</a>讲述如何一步步做<code>Linux from scratch</code>。有些步骤是多余的，比如编译设备树的工具链。鉴于我们的EBAZ4205是块野生的板子，需要稍微做一些配置。</p>
+<p>安装vivado、SDK时候顺便安装了<code>arm-linux-gnueabihf-</code>以及其他Xilinx自家的工具链，不妨将其export到PATH：</p>
+<pre><code class="bash hljs"><span class="hljs-comment"># gcc</span>
+<span class="hljs-built_in">export</span> PATH=/某某某/SDK/2017.4/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/:<span class="hljs-variable">$PATH</span>
+<span class="hljs-comment"># bootgen etc.</span>
+<span class="hljs-built_in">export</span> PATH=/某某某/SDK/2017.4/bin:<span class="hljs-variable">$PATH</span>
+</code></pre>
+<p>所有工作开始之前，还要export <code>ARCH</code>和<code>CROSS_COMPILE</code>两个环境变量：</p>
+<pre><code class="bash hljs"><span class="hljs-built_in">export</span> ARCH=arm
+<span class="hljs-built_in">export</span> CROSS_COMPILE=arm-linux-gnueabihf-
+</code></pre>
+<a id="more"></a>
+<h3 id="uboot"><a href="https://hhuysqt.github.io/zynq2/#uboot" class="headerlink" title="uboot"></a>uboot</h3><p>uboot只需要极少量的配置，就基本上works out of the box了。现在我们先用<code>tftp</code>来启动内核。各部分的地址如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">文件名</th>
+<th style="text-align:left">启动地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">设备树</td>
+<td style="text-align:left">zynq-zc702.dtb</td>
+<td style="text-align:left">0</td>
+</tr>
+<tr>
+<td style="text-align:left">内核</td>
+<td style="text-align:left">uImage</td>
+<td style="text-align:left">0x8000</td>
+</tr>
+<tr>
+<td style="text-align:left">文件系统</td>
+<td style="text-align:left">uramdisk.image.gz</td>
+<td style="text-align:left">0x01000000</td>
+</tr>
+</tbody>
+</table>
+<p>从<a href="https://github.com/Xilinx/u-boot-xlnx" target="_blank" rel="noopener">https://github.com/Xilinx/u-boot-xlnx</a>上下载Xilinx家的uboot，当然也可以选择去下载<a href="https://github.com/Xilinx/u-boot-xlnx/releases" target="_blank" rel="noopener">release</a>版本的。</p>
+<h4 id="改改配置"><a href="https://hhuysqt.github.io/zynq2/#改改配置" class="headerlink" title="改改配置"></a>改改配置</h4><p><a href="https://github.com/Xilinx/u-boot-xlnx/blob/master/arch/arm/dts/zynq-zc702.dts#L22" target="_blank" rel="noopener">arch/arm/dts/zynq-zc702.dts</a>的<code>memory</code>节点，内存大小改为256MB</p>
+<pre><code class="diff hljs"><span class="hljs-meta">@@ -21,7 +21,7 @@</span>
+
+     memory@0 {
+         device_type = "memory";
+<span class="hljs-deletion">-        reg = &lt;0x0 0x40000000&gt;;</span>
+<span class="hljs-addition">+        reg = &lt;0x0 0x10000000&gt;;</span>
+     };
+
+     chosen {
+</code></pre>
+<p>直接用<code>zynq_zc702_defconfig</code>：</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">make</span> zynq_zc702_defconfig
+</code></pre><ul>
+<li>关闭<code>CONFIG_ENV_IS_IN_SPI_FLASH</code>，不然启动时候会卡死在SPI flash初始化部分。这时候就用默认的环境变量。</li>
+<li>开启<code>CONFIG_NAND</code>、<code>CONFIG_NAND_ZYNQ</code>，以开启nand命令。</li>
+</ul>
+<p>定制环境变量，改<code>include/configs/zynq-common.h</code>，主要是来配置启动参数。</p>
+<ul>
+<li>tftp之前得显式地设置<code>serverip</code></li>
+<li>要tftp内核、设备树、根文件系统</li>
+</ul>
+<pre><code class="hljs css"><span class="hljs-selector-tag">set</span> <span class="hljs-selector-tag">serverip</span> <span class="hljs-selector-tag">xxx</span><span class="hljs-selector-class">.xxx</span><span class="hljs-selector-class">.xxx</span><span class="hljs-selector-class">.xxx</span>
+<span class="hljs-selector-tag">dhcp</span>
+<span class="hljs-selector-tag">tftpboot</span> 0 <span class="hljs-selector-tag">zynq-zc702</span><span class="hljs-selector-class">.dtb</span>
+<span class="hljs-selector-tag">tftpboot</span> 8000 <span class="hljs-selector-tag">uImage</span>
+<span class="hljs-selector-tag">tftpboot</span> 1000000 <span class="hljs-selector-tag">uramdisk</span><span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.gz</span>
+<span class="hljs-selector-tag">bootm</span> 8000 1000000 0
+</code></pre><p>然后make，生成了<code>u-boot</code>可执行文件。</p>
+<h4 id="生成BOOT-bin"><a href="https://hhuysqt.github.io/zynq2/#生成BOOT-bin" class="headerlink" title="生成BOOT.bin"></a>生成BOOT.bin</h4><p>我们写一个<code>boot.bif</code>，引用之前建的helloworld工程中的<code>FSBL</code>和<code>bitstream</code>：</p>
+<pre><code class="hljs cs">the_ROM_image:
+{
+    [<span class="hljs-meta">bootloader</span>]/某某某/fsbl.elf
+    /某某某/ebaz4205_wrapper.bit
+    /某某某/u-boot.elf
+}
+</code></pre><p>利用vivado安装的工具<code>bootgen</code>，通过上述配置文件来生成<code>BOOT.bin</code>。<strong><code>u-boot</code>需要重命名为<code>u-boot.elf</code>，不然bootgen不认为它是ELF文件，就当它是bin文件来处理了。。。</strong></p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">mv</span> <span class="hljs-selector-tag">u-boot</span> <span class="hljs-selector-tag">u-boot</span><span class="hljs-selector-class">.elf</span>
+<span class="hljs-selector-tag">bootgen</span> <span class="hljs-selector-tag">-image</span> <span class="hljs-selector-tag">boot</span><span class="hljs-selector-class">.bif</span> <span class="hljs-selector-tag">-o</span> <span class="hljs-selector-tag">i</span> <span class="hljs-selector-tag">BOOT</span><span class="hljs-selector-class">.bin</span> <span class="hljs-selector-tag">-w</span>
+</code></pre><h3 id="Linux内核"><a href="https://hhuysqt.github.io/zynq2/#Linux内核" class="headerlink" title="Linux内核"></a>Linux内核</h3><p>内核很大程度上也是work out of the box了，改改设备树就好。</p>
+<p>从<a href="https://github.com/Xilinx/linux-xlnx" target="_blank" rel="noopener">https://github.com/Xilinx/linux-xlnx</a>上下载Xilinx家的内核。目前版本是4.19.0，还是挺新的。</p>
+<h4 id="设备树"><a href="https://hhuysqt.github.io/zynq2/#设备树" class="headerlink" title="设备树"></a>设备树</h4><p>首先还是得将内存大小改对：</p>
+<pre><code class="diff hljs">        memory@0 {
+                device_type = "memory";
+<span class="hljs-deletion">-               reg = &lt;0x0 0x40000000&gt;;</span>
+<span class="hljs-addition">+               reg = &lt;0x0 0x10000000&gt;;</span>
+        };
+</code></pre>
+<p>因为我们的野生板子外设很少，必须将不用的外设<code>disabled</code>掉，不然引脚配置会打架。</p>
+<pre><code class="diff hljs"> &amp;can0 {
+<span class="hljs-deletion">-       status = "okay";</span>
+<span class="hljs-addition">+       status = "disabled";</span>
+
+...
+
+ &amp;i2c0 {
+<span class="hljs-deletion">-       status = "okay";</span>
+<span class="hljs-addition">+       status = "disabled";</span>
+
+ &amp;qspi {
+        u-boot,dm-pre-reloc;
+<span class="hljs-deletion">-       status = "okay";</span>
+<span class="hljs-addition">+       status = "disabled";</span>
+
+ &amp;usb0 {
+<span class="hljs-deletion">-       status = "okay";</span>
+<span class="hljs-addition">+       status = "disabled";</span>
+</code></pre>
+<p>串口的引脚要改对：</p>
+<pre><code class="diff hljs"><span class="hljs-meta">@@ -368,12 +382,12 @@</span>
+         };
+
+         conf-rx {
+<span class="hljs-deletion">-            pins = "MIO49";</span>
+<span class="hljs-addition">+            pins = "MIO25";</span>
+             bias-high-impedance;
+         };
+
+         conf-tx {
+<span class="hljs-deletion">-            pins = "MIO48";</span>
+<span class="hljs-addition">+            pins = "MIO24";</span>
+             bias-disable;
+         };
+     };
+</code></pre>
+<p>网口通过<code>EMIO</code>引出，因此<code>gem0</code>的引脚声明应该删掉，否则会跟串口引脚打架，导致启动到一半串口没输出了。。并且<code>ethernet_phy</code>节点的<code>reg</code>参数应改为0，不然会枚举不到那个网卡：</p>
+<pre><code class="diff hljs">&amp;gem0 {
+    status = "okay";
+    phy-mode = "rgmii-id";
+    phy-handle = &lt;&amp;ethernet_phy&gt;;
+<span class="hljs-deletion">-    pinctrl-names = "default";</span>
+<span class="hljs-deletion">-    pinctrl-0 = &lt;&amp;pinctrl_gem0_default&gt;;</span>
+<span class="hljs-deletion">-    phy-reset-gpio = &lt;&amp;gpio0 11 0&gt;;</span>
+<span class="hljs-deletion">-    phy-reset-active-low;</span>
+
+<span class="hljs-deletion">-    ethernet_phy: ethernet-phy@7 {</span>
+<span class="hljs-deletion">-        reg = &lt;7&gt;;</span>
+<span class="hljs-addition">+    ethernet_phy: ethernet-phy@0 {</span>
+<span class="hljs-addition">+        reg = &lt;0&gt;;</span>
+         device_type = "ethernet-phy";
+     };
+};
+</code></pre>
+<p>SDIO接口也在fsbl初始化完成了，所以它的引脚声明也要删掉：</p>
+<pre><code class="diff hljs"> &amp;sdhci0 {
+     u-boot,dm-pre-reloc;
+     status = "okay";
+<span class="hljs-deletion">-    pinctrl-names = "default";</span>
+<span class="hljs-deletion">-    pinctrl-0 = &lt;&amp;pinctrl_sdhci0_default&gt;;</span>
+ };
+</code></pre>
+<p>为了用nand flash，需要添加<code>nand</code>节点。在阿莫论坛<a href="https://www.amobbs.com/thread-5705018-1-1.html" target="_blank" rel="noopener">有个帖子</a>，62楼列举了原板子启动的log，可以看到它有9个分区：</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">Creating</span> <span class="hljs-number">9</span> MTD partitions <span class="hljs-literal">on</span> <span class="hljs-string">"pl35x-nand"</span>:
+0x000000000000-0x000000300000 : <span class="hljs-string">"nand-fsbl-uboot"</span>
+0x000000300000-0x000000800000 : <span class="hljs-string">"nand-linux"</span>
+0x000000800000-0x000000820000 : <span class="hljs-string">"nand-device-tree"</span>
+0x000000820000-0x000001220000 : <span class="hljs-string">"nand-rootfs"</span>
+0x000001220000-0x000002220000 : <span class="hljs-string">"nand-jffs2"</span>
+0x000002220000-0x000002a20000 : <span class="hljs-string">"nand-bitstream"</span>
+0x000002a20000-0x000006a20000 : <span class="hljs-string">"nand-allrootfs"</span>
+0x000006a20000-0x000007e00000 : <span class="hljs-string">"nand-release"</span>
+0x000007e00000-0x000008000000 : <span class="hljs-string">"nand-reserve"</span>
+</code></pre><p>所以我们这样设置<code>nand0</code>节点：</p>
+<pre><code class="dts hljs perl">&amp;nand<span class="hljs-number">0</span> {
+    status = <span class="hljs-string">"okay"</span>;
+    pinctrl-names = <span class="hljs-string">"default"</span>;
+    pinctrl-<span class="hljs-number">0</span> = &lt;&amp;pinctrl_nand0_default&gt;;
+    partition@0 {
+        label = <span class="hljs-string">"nand-fsbl-uboot"</span>;
+        reg = &lt;<span class="hljs-number">0x0</span> <span class="hljs-number">0x300000</span>&gt;;
+    };
+    partition@1 {
+        label = <span class="hljs-string">"nand-linux"</span>;
+        reg = &lt;<span class="hljs-number">0x300000</span> <span class="hljs-number">0x500000</span>&gt;;
+    };
+    partition@2 {
+        label = <span class="hljs-string">"nand-device-tree"</span>;
+        reg = &lt;<span class="hljs-number">0x800000</span> <span class="hljs-number">0x20000</span>&gt;;
+    };
+    partition@3 {
+        label = <span class="hljs-string">"nand-rootfs"</span>;
+        reg = &lt;<span class="hljs-number">0x820000</span> <span class="hljs-number">0xa00000</span>&gt;;
+    };
+    partition@4 {
+        label = <span class="hljs-string">"nand-jffs2"</span>;
+        reg = &lt;<span class="hljs-number">0x1220000</span> <span class="hljs-number">0x1000000</span>&gt;;
+    };
+    partition@5 {
+        label = <span class="hljs-string">"nand-bitstream"</span>;
+        reg = &lt;<span class="hljs-number">0x2220000</span> <span class="hljs-number">0x800000</span>&gt;;
+    };
+    partition@6 {
+        label = <span class="hljs-string">"nand-allrootfs"</span>;
+        reg = &lt;<span class="hljs-number">0x2a20000</span> <span class="hljs-number">0x4000000</span>&gt;;
+    };
+    partition@7 {
+        label = <span class="hljs-string">"nand-release"</span>;
+        reg = &lt;<span class="hljs-number">0x6a20000</span> <span class="hljs-number">0x13e0000</span>&gt;;
+    };
+    partition@8 {
+        label = <span class="hljs-string">"nand-reserve"</span>;
+        reg = &lt;<span class="hljs-number">0x7e00000</span> <span class="hljs-number">0x200000</span>&gt;;
+    };
+};
+</code></pre>
+<p>它的引脚配置<code>pinctrl_nand0_default</code>如下：</p>
+<pre><code class="dts hljs properties">    <span class="hljs-attr">pinctrl_nand0_default</span>: <span class="hljs-string">nand0-default {</span>
+        <span class="hljs-attr">mux</span> <span class="hljs-string">{</span>
+            <span class="hljs-attr">groups</span> = <span class="hljs-string">"smc0_nand8_grp";</span>
+            <span class="hljs-attr">function</span> = <span class="hljs-string">"smc0_nand";</span>
+        <span class="hljs-attr">};</span>
+
+        <span class="hljs-attr">conf</span> <span class="hljs-string">{</span>
+            <span class="hljs-attr">groups</span> = <span class="hljs-string">"smc0_nand8_grp";</span>
+            <span class="hljs-attr">bias-pull-up;</span>
+        <span class="hljs-attr">};</span>
+    <span class="hljs-attr">};</span>
+</code></pre>
+<p>groups的名字是在<a href="https://github.com/Xilinx/linux-xlnx/blob/master/drivers/pinctrl/pinctrl-zynq.c#L715" target="_blank" rel="noopener">pinctrl-zynq.c第715行</a>找到的。</p>
+<p>由于在<a href="https://github.com/Xilinx/linux-xlnx/blob/master/arch/arm/boot/dts/zynq-7000.dtsi#L220" target="_blank" rel="noopener">zynq-7000.dtsi</a>里，<code>nand0</code>是<code>smcc</code>的子节点，所以还要使能<code>smcc</code>节点：</p>
+<pre><code class="dts hljs bash">&amp;smcc {
+    status = <span class="hljs-string">"okay"</span>;
+};
+</code></pre>
+<p>为了避免<code>pinctrl_gpio0_default</code>跟<code>pinctrl_nand0_default</code>引脚打架，前者的引脚都应该删掉：</p>
+<pre><code class="diff hljs">     pinctrl_gpio0_default: gpio0-default {
+         mux {
+             function = "gpio0";
+<span class="hljs-deletion">-            groups = "gpio0_7_grp", "gpio0_8_grp", "gpio0_9_grp",</span>
+<span class="hljs-deletion">-                 "gpio0_10_grp", "gpio0_11_grp", "gpio0_12_grp",</span>
+<span class="hljs-deletion">-                 "gpio0_13_grp", "gpio0_14_grp";</span>
+<span class="hljs-addition">+            groups = "";</span>
+         };
+
+         conf {
+<span class="hljs-deletion">-            groups = "gpio0_7_grp", "gpio0_8_grp", "gpio0_9_grp",</span>
+<span class="hljs-deletion">-                 "gpio0_10_grp", "gpio0_11_grp", "gpio0_12_grp",</span>
+<span class="hljs-deletion">-                 "gpio0_13_grp", "gpio0_14_grp";</span>
+<span class="hljs-addition">+            groups = "";</span>
+             slew-rate = &lt;0&gt;;
+             io-standard = &lt;1&gt;;
+         };
+
+         conf-pull-up {
+<span class="hljs-deletion">-            pins = "MIO9", "MIO10", "MIO11", "MIO12", "MIO13", "MIO14";</span>
+<span class="hljs-addition">+            pins = "";</span>
+             bias-pull-up;
+         };
+
+         conf-pull-none {
+<span class="hljs-deletion">-            pins = "MIO7", "MIO8";</span>
+<span class="hljs-addition">+            pins = "";</span>
+             bias-disable;
+         };
+     };
+</code></pre>
+<p>其他节点该删的都要删掉，比如<code>gpio-keys</code>、<code>leds</code>、<code>usb_phy0</code>等。还有一些pinctrl的节点，看着碍事也不妨删掉，比如<code>pinctrl_gem0_default</code>等。。</p>
+<h4 id="编译"><a href="https://hhuysqt.github.io/zynq2/#编译" class="headerlink" title="编译"></a>编译</h4><p>其实用<code>xilinx_zynq_defconfig</code>已经足够，不过如果想要更多的功能，比如<code>ZRAM</code>压缩内存之类的比较骚的设施，也可以稍微配置一下。。</p>
+<p>记得我们uboot会将内核放在32K开始的内存地址处。然后编译设备树。</p>
+<pre><code class="hljs properties"><span class="hljs-attr">make</span> <span class="hljs-string">xilinx_zynq_defconfig</span>
+<span class="hljs-attr">make</span> <span class="hljs-string">uImage UIMAGE_LOADADDR=0x8000</span>
+<span class="hljs-attr">make</span> <span class="hljs-string">dtbs</span>
+</code></pre><h3 id="rootfs"><a href="https://hhuysqt.github.io/zynq2/#rootfs" class="headerlink" title="rootfs"></a>rootfs</h3><p>从<a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842473/Build+and+Modify+a+Rootfs" target="_blank" rel="noopener">Build and Modify a Rootfs</a>上下载人家编译好的<code>busybox</code>做的文件系统<code>arm_ramdisk.image.gz</code>，然后将它打包为uboot能识别的格式：</p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">mkimage</span> <span class="hljs-selector-tag">-A</span> <span class="hljs-selector-tag">arm</span> <span class="hljs-selector-tag">-T</span> <span class="hljs-selector-tag">ramdisk</span> <span class="hljs-selector-tag">-C</span> <span class="hljs-selector-tag">gzip</span> <span class="hljs-selector-tag">-d</span> <span class="hljs-selector-tag">arm_ramdisk</span><span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.gz</span> <span class="hljs-selector-tag">uramdisk</span><span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.gz</span>
+</code></pre><h3 id="启动！"><a href="https://hhuysqt.github.io/zynq2/#启动！" class="headerlink" title="启动！"></a>启动！</h3><p>装好tftp server，将<code>uImage</code>、<code>zynq-zc702.dtb</code>、<code>uramdisk.image.gz</code>放进去。将<code>BOOT.bin</code>丢进格式化为fatfs的SD卡的根目录里面，然后就可以等它启动了。</p>
+<pre><code class="hljs sql"><span class="hljs-comment">## Booting kernel from Legacy Image at 00008000 ...</span>
+  Image Name:   Linux-4.19.0-xilinx
+  Image Type:   ARM Linux Kernel Image (uncompressed)
+  Data Size:    4322424 Bytes = 4.1 MiB
+  <span class="hljs-keyword">Load</span> Address: <span class="hljs-number">00008000</span>
+  Entry Point:  <span class="hljs-number">00008000</span>
+  Verifying <span class="hljs-keyword">Checksum</span> ... OK
+<span class="hljs-comment">## Loading init Ramdisk from Legacy Image at 01000000 ...</span>
+  Image <span class="hljs-keyword">Name</span>:
+  Image <span class="hljs-keyword">Type</span>:   ARM Linux RAMDisk Image (gzip compressed)
+  <span class="hljs-keyword">Data</span> <span class="hljs-keyword">Size</span>:    <span class="hljs-number">5309954</span> <span class="hljs-keyword">Bytes</span> = <span class="hljs-number">5.1</span> MiB
+  <span class="hljs-keyword">Load</span> Address: <span class="hljs-number">00000000</span>
+  Entry Point:  <span class="hljs-number">00000000</span>
+  Verifying <span class="hljs-keyword">Checksum</span> ... OK
+<span class="hljs-comment">## Flattened Device Tree blob at 00000000</span>
+  Booting <span class="hljs-keyword">using</span> the fdt <span class="hljs-built_in">blob</span> <span class="hljs-keyword">at</span> <span class="hljs-number">0x000000</span>
+  Loading Kernel Image ... OK
+  Loading Ramdisk <span class="hljs-keyword">to</span> <span class="hljs-number">0e5</span>f3000, <span class="hljs-keyword">end</span> <span class="hljs-number">0</span>eb03602 ... OK
+  Loading Device Tree <span class="hljs-keyword">to</span> <span class="hljs-number">0e5</span>ec000, <span class="hljs-keyword">end</span> <span class="hljs-number">0e5</span>f27a6 ... OK
+
+<span class="hljs-keyword">Starting</span> kernel ...
+
+Booting Linux <span class="hljs-keyword">on</span> <span class="hljs-keyword">physical</span> CPU <span class="hljs-number">0x0</span>
+Linux <span class="hljs-keyword">version</span> <span class="hljs-number">4.19</span><span class="hljs-number">.0</span>-xilinx (hyq@ict) (gcc <span class="hljs-keyword">version</span> <span class="hljs-number">6.2</span><span class="hljs-number">.1</span> <span class="hljs-number">20161114</span> (Linaro GCC <span class="hljs-keyword">Snapshot</span> <span class="hljs-number">6.2</span><span class="hljs-number">-2016.11</span>))
+<span class="hljs-comment">#19 SMP PREEMPT Wed Apr 24 21:55:25 CST 2019</span>
+CPU: ARMv7 Processor [<span class="hljs-number">413</span>fc090] revision <span class="hljs-number">0</span> (ARMv7), cr=<span class="hljs-number">18</span>c5387d
+
+....
+
+VFS: Mounted root (ext4 filesystem) <span class="hljs-keyword">on</span> device <span class="hljs-number">1</span>:<span class="hljs-number">0.</span>
+<span class="hljs-keyword">Starting</span> rcS...
+++ Mounting filesystem
+<span class="hljs-keyword">mount</span>: mounting /dev/mmcblk0p1 <span class="hljs-keyword">on</span> /mnt <span class="hljs-keyword">failed</span>: <span class="hljs-keyword">No</span> such <span class="hljs-keyword">file</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">directory</span>
+<span class="hljs-keyword">mount</span>: mounting /dev/mmcblk0 <span class="hljs-keyword">on</span> /mnt <span class="hljs-keyword">failed</span>: <span class="hljs-keyword">No</span> such <span class="hljs-keyword">file</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">directory</span>
+++ Setting up mdev
+++ <span class="hljs-keyword">Starting</span> telnet daemon
+++ <span class="hljs-keyword">Starting</span> <span class="hljs-keyword">http</span> daemon
+++ <span class="hljs-keyword">Starting</span> <span class="hljs-keyword">ftp</span> daemon
+++ <span class="hljs-keyword">Starting</span> ssh daemon
+random: sshd: uninitialized urandom <span class="hljs-keyword">read</span> (<span class="hljs-number">32</span> <span class="hljs-keyword">bytes</span> <span class="hljs-keyword">read</span>)
+rcS <span class="hljs-keyword">Complete</span>
+zynq&gt;
+zynq&gt; 
+zynq&gt; 
+zynq&gt; uname -a
+Linux (<span class="hljs-keyword">none</span>) <span class="hljs-number">4.19</span><span class="hljs-number">.0</span>-xilinx <span class="hljs-comment">#19 SMP PREEMPT Wed Apr 24 21:55:25 CST 2019 armv7l GNU/Linux</span>
+zynq&gt; 
+</code></pre>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-04-27T15:15:27.421Z" itemprop="dateUpdated">2019-04-27 23:15:27</time>
+</span><br>
+
+
+        
+        欢迎留言，大佬轻拍。。
+        
+    </div>
+    
+    <footer>
+        <a href="https://hhuysqt.github.io/">
+            <img src="./zynq[2] Linux from scratch _ hhuysqt_files/avatar.jpg" alt="hhuysqt">
+            hhuysqt
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link waves-effect waves-button" href="https://hhuysqt.github.io/tags/zynq/">zynq</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://hhuysqt.github.io/zynq2/&amp;title=%E3%80%8Azynq[2]%20Linux%20from%20scratch%E3%80%8B%20%E2%80%94%20hhuysqt&amp;pic=https://hhuysqt.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://hhuysqt.github.io/zynq2/&amp;title=%E3%80%8Azynq[2]%20Linux%20from%20scratch%E3%80%8B%20%E2%80%94%20hhuysqt&amp;source=Xilinx%E6%9C%89%E4%B8%AA%E5%B7%A5%E5%85%B7%E5%8F%ABPetaLinux%EF%BC%8C%E5%AE%83%E5%8F%AF%E4%BB%A5%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90uboot%E3%80%81Linux%E3%80%81%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E3%80%82%E4%BD%86%E6%98%AF%E6%8C%89%E7%85%A7%E6%83%AF%E4%BE%8B%E6%88%91%E4%BB%AC%E8%BF%98%E6%98%AF%E8%87%AA%E5%B7%B1%E6%95%B2%E5%91%BD%E4%BB%A4%E4%B8%80%E4%B8%AA%E4%B8%AA%E6%9D%A5%E5%90%A7%E3%80%82Xilinx%E6%9C%89%E4%B8%AAw..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://hhuysqt.github.io/zynq2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=%E3%80%8Azynq[2]%20Linux%20from%20scratch%E3%80%8B%20%E2%80%94%20hhuysqt&amp;url=https://hhuysqt.github.io/zynq2/&amp;via=https://hhuysqt.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://hhuysqt.github.io/zynq2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="https://hhuysqt.github.io/zynq3/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">zynq[3] bootstrap Ubuntu</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="https://hhuysqt.github.io/zynq1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">zynq[1] 矿板helloworld</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments"><div lang="en-US" class="gitment-container gitment-root-container"><div><div lang="en-US" class="gitment-container gitment-header-container"><span class="gitment-header-like-btn">
+    <svg class="gitment-heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><path d="M25 39.7l-.6-.5C11.5 28.7 8 25 8 19c0-5 4-9 9-9 4.1 0 6.4 2.3 8 4.1 1.6-1.8 3.9-4.1 8-4.1 5 0 9 4 9 9 0 6-3.5 9.7-16.4 20.2l-.6.5zM17 12c-3.9 0-7 3.1-7 7 0 5.1 3.2 8.5 15 18.1 11.8-9.6 15-13 15-18.1 0-3.9-3.1-7-7-7-3.5 0-5.4 2.1-6.9 3.8L25 17.1l-1.1-1.3C22.4 14.1 20.5 12 17 12z"></path></svg>
+    Like
+    
+  </span><span>
+    
+  </span><a class="gitment-header-issue-link" href="https://github.com/hhuysqt/hhuysqt.github.io/issues/38" target="_blank">Issue Page</a></div></div><div><div lang="en-US" class="gitment-container gitment-comments-container"><div class="gitment-comments-empty">No Comment Yet</div></div></div><div><div lang="en-US" class="gitment-container gitment-editor-container">
+      <a class="gitment-editor-avatar" href="https://github.com/login/oauth/authorize?scope=public_repo&amp;redirect_uri=https%3A%2F%2Fhhuysqt.github.io%2Fzynq2%2F&amp;client_id=f3accf3be337dcd6d61d&amp;client_secret=af75b9e501d76dc85f1f0417d7307419df49aeec" title="login with GitHub">
+              <svg class="gitment-github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><path d="M25 10c-8.3 0-15 6.7-15 15 0 6.6 4.3 12.2 10.3 14.2.8.1 1-.3 1-.7v-2.6c-4.2.9-5.1-2-5.1-2-.7-1.7-1.7-2.2-1.7-2.2-1.4-.9.1-.9.1-.9 1.5.1 2.3 1.5 2.3 1.5 1.3 2.3 3.5 1.6 4.4 1.2.1-1 .5-1.6 1-2-3.3-.4-6.8-1.7-6.8-7.4 0-1.6.6-3 1.5-4-.2-.4-.7-1.9.1-4 0 0 1.3-.4 4.1 1.5 1.2-.3 2.5-.5 3.8-.5 1.3 0 2.6.2 3.8.5 2.9-1.9 4.1-1.5 4.1-1.5.8 2.1.3 3.6.1 4 1 1 1.5 2.4 1.5 4 0 5.8-3.5 7-6.8 7.4.5.5 1 1.4 1 2.8v4.1c0 .4.3.9 1 .7 6-2 10.2-7.6 10.2-14.2C40 16.7 33.3 10 25 10z"></path></svg>
+            </a>
+    
+    <div class="gitment-editor-main">
+      <div class="gitment-editor-header">
+        <nav class="gitment-editor-tabs">
+          <button class="gitment-editor-tab gitment-selected">Write</button>
+          <button class="gitment-editor-tab">Preview</button>
+        </nav>
+        <div class="gitment-editor-login">
+          <a class="gitment-editor-login-link" href="https://github.com/login/oauth/authorize?scope=public_repo&amp;redirect_uri=https%3A%2F%2Fhhuysqt.github.io%2Fzynq2%2F&amp;client_id=f3accf3be337dcd6d61d&amp;client_secret=af75b9e501d76dc85f1f0417d7307419df49aeec">Login</a> with GitHub
+        </div>
+      </div>
+      <div class="gitment-editor-body">
+        <div class="gitment-editor-write-field">
+          <textarea placeholder="Leave a comment" title="Login to Comment" disabled=""></textarea>
+        </div>
+        <div class="gitment-editor-preview-field gitment-hidden">
+          <div class="gitment-editor-preview gitment-markdown"></div>
+        </div>
+      </div>
+    </div>
+    <div class="gitment-editor-footer">
+      <a class="gitment-editor-footer-tip" href="https://guides.github.com/features/mastering-markdown/" target="_blank">
+        Styling with Markdown is supported
+      </a>
+      <button class="gitment-editor-submit" title="Login to Comment" disabled="">Comment</button>
+    </div>
+  </div></div><div><div lang="en-US" class="gitment-container gitment-footer-container">
+    Powered by
+    <a class="gitment-footer-project-link" href="https://github.com/imsun/gitment" target="_blank">
+      Gitment
+    </a>
+  </div></div></div><div id="gitment_thread"></div>
+    <link rel="stylesheet" href="./zynq[2] Linux from scratch _ hhuysqt_files/default.css">
+    <script src="./zynq[2] Linux from scratch _ hhuysqt_files/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'hhuysqt',
+            repo: 'hhuysqt.github.io',
+            oauth: {
+                client_id: 'f3accf3be337dcd6d61d',
+                client_secret: 'af75b9e501d76dc85f1f0417d7307419df49aeec',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display: inline;">
+        站点总访客数：<span id="busuanzi_value_site_uv">22</span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display: inline;">
+        站点总访问量：<span id="busuanzi_value_site_pv">195</span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="https://hhuysqt.github.io/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>hhuysqt © 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li class=" waves-effect waves-block">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://hhuysqt.github.io/zynq2/&amp;title=%E3%80%8Azynq[2]%20Linux%20from%20scratch%E3%80%8B%20%E2%80%94%20hhuysqt&amp;pic=https://hhuysqt.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://hhuysqt.github.io/zynq2/&amp;title=%E3%80%8Azynq[2]%20Linux%20from%20scratch%E3%80%8B%20%E2%80%94%20hhuysqt&amp;source=Xilinx%E6%9C%89%E4%B8%AA%E5%B7%A5%E5%85%B7%E5%8F%ABPetaLinux%EF%BC%8C%E5%AE%83%E5%8F%AF%E4%BB%A5%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90uboot%E3%80%81Linux%E3%80%81%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E3%80%82%E4%BD%86%E6%98%AF%E6%8C%89%E7%85%A7%E6%83%AF%E4%BE%8B%E6%88%91%E4%BB%AC%E8%BF%98%E6%98%AF%E8%87%AA%E5%B7%B1%E6%95%B2%E5%91%BD%E4%BB%A4%E4%B8%80%E4%B8%AA%E4%B8%AA%E6%9D%A5%E5%90%A7%E3%80%82Xilinx%E6%9C%89%E4%B8%AAw..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://hhuysqt.github.io/zynq2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=%E3%80%8Azynq[2]%20Linux%20from%20scratch%E3%80%8B%20%E2%80%94%20hhuysqt&amp;url=https://hhuysqt.github.io/zynq2/&amp;via=https://hhuysqt.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li class=" waves-effect waves-block">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://hhuysqt.github.io/zynq2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="./zynq[2] Linux from scratch _ hhuysqt_files/saved_resource" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="./zynq[2] Linux from scratch _ hhuysqt_files/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="./zynq[2] Linux from scratch _ hhuysqt_files/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl"></template>
+
+<script src="./zynq[2] Linux from scratch _ hhuysqt_files/search.min.js" async=""></script>
+
+
+
+
+
+
+<script async="" src="./zynq[2] Linux from scratch _ hhuysqt_files/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+</body></html>

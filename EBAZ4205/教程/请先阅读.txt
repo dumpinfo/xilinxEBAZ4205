@@ -1,0 +1,2 @@
+下载器与板级之间的连接，请看博客！
+https://www.cnblogs.com/ifpga/p/10778040.html

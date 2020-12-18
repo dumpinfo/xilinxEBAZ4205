@@ -1,0 +1,13 @@
+01:14:40 INFO  : Registering command handlers for SDK TCF services
+01:14:43 INFO  : Launching XSCT server: xsct -n -interactive /home/yw/fpga/gpio_test/gpio_test.sdk/temp_xsdb_launch_script.tcl
+01:14:47 INFO  : XSCT server has started successfully.
+01:14:54 INFO  : Successfully done setting XSCT server connection channel  
+01:14:54 INFO  : Successfully done setting SDK workspace  
+01:14:54 INFO  : Processing command line option -hwspec /home/yw/fpga/gpio_test/gpio_test.sdk/design_1_wrapper.hdf.
+01:18:05 INFO  : Invoking Bootgen: bootgen -image gpio_test.bif -arch zynq -o /home/yw/fpga/gpio_test/gpio_test.sdk/gpio_test/bootimage/BOOT.bin
+01:18:05 INFO  : Creating new bif file /home/yw/fpga/gpio_test/gpio_test.sdk/gpio_test/bootimage/gpio_test.bif
+01:18:07 INFO  : Bootgen command execution is done.
+01:23:14 INFO  : Invoking Bootgen: bootgen -image gpio_test.bif -arch zynq -o /home/yw/fpga/gpio_test/gpio_test.sdk/gpio_test/bootimage/BOOT.bin -w on
+01:23:16 INFO  : Bootgen command execution is done.
+01:27:06 INFO  : Invoking Bootgen: bootgen -image gpio_test.bif -arch zynq -o /home/yw/fpga/gpio_test/gpio_test.sdk/gpio_test/bootimage/BOOT.bin -w on
+01:27:07 INFO  : Bootgen command execution is done.
